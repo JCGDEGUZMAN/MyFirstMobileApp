@@ -3,18 +3,36 @@ import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default class HelloReactNative extends Component {
+  state = {
+    isVisible: false
+  }
+
+  handleBtnClick = () => {
+    this.setState({
+      isVisible: !this.state.isVisible
+    });
+  }
+  
   render(){
+    const { isVisible } = this.state;
     return(
       <View style={styles.container}>
         <Text style={styles.header}>
           My First Mobile App
         </Text>
-        <Text style={styles.bodyText}>
-          Welcome to my React Native App!   
-        </Text>
+        {
+          isVisible 
+          ?
+          <Text style={styles.bodyText}>
+            Welcome to my React Native App!   
+          </Text>
+          :
+          <Text/>
+        }
         <Button
-          buttonStyle={styles.bodyBtn}
-          title="Hey! Click me!"
+          buttonStyle={isVisible ? styles.bodyBtnBlue : styles.bodyBtnRed}
+          title={isVisible ? "Hey! Click me again!" : "Hey! Click me!"}
+          onPress={() => this.handleBtnClick()}
         />
         <Text style={styles.footer}>
           Developed By: JCGDeGuzman   
@@ -62,8 +80,14 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
 
-  bodyBtn: {
+  bodyBtnRed: {
     backgroundColor: "#9F000F",
+    width: 200,
+    height: 50,
+  },
+
+  bodyBtnBlue: {
+    backgroundColor: "#307D7E",
     width: 200,
     height: 50,
   },
