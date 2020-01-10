@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
 import* as Font from 'expo-font';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, Text, View, Animated } from 'react-native';
+import { Button, Avatar } from 'react-native-elements';
+
+const avatarSrc = require('./assets/icon.png');
 
 export default class HelloReactNative extends Component {
   state = {
-    isVisible: false
+    isVisible: false,
+    fadeValue: new Animated.Value(0),
   }
 
   componentDidMount = async() => {
@@ -15,13 +18,28 @@ export default class HelloReactNative extends Component {
   }
 
   handleBtnClick = () => {
+
     this.setState({
       isVisible: !this.state.isVisible
+    });
+
+    Animated.timing(this.state.fadeValue, {
+      toValue: 1,
+      duration: 2000
+    }).start();
+  }
+
+  handleBtnClickAgain = () => {
+
+    this.setState({
+      isVisible: !this.state.isVisible,
+      fadeValue: new Animated.Value(0)
     });
   }
   
   render(){
     const { isVisible } = this.state;
+
     return(
       <View style={styles.container}>
         <Text style={styles.header}>
@@ -30,16 +48,33 @@ export default class HelloReactNative extends Component {
         {
           isVisible 
           ?
+          <Animated.View
+            style={{
+              opacity: this.state.fadeValue,
+              alignItems: "center"
+            }}
+          >
+          <Avatar 
+            rounded
+            size="xlarge"
+            source = {avatarSrc}
+            />
           <Text style={styles.bodyText}>
-            Welcome to my React Native App!   
+            Welcome to my
+            <Text style={styles.insideText}>
+            {" React Native "}
+            </Text>
+            App!   
           </Text>
+        </Animated.View>
+          
           :
           <Text/>
         }
         <Button
           buttonStyle={isVisible ? styles.bodyBtnBlue : styles.bodyBtnRed}
           title={isVisible ? "Hey! Click me again!" : "Hey! Click me!"}
-          onPress={() => this.handleBtnClick()}
+          onPress={isVisible ? () => this.handleBtnClickAgain() : () => this.handleBtnClick()}
         />
         <Text style={styles.footer}>
           Developed By: JCGDeGuzman   
@@ -85,9 +120,17 @@ const styles = StyleSheet.create({
   },
 
   bodyText: {
+    fontSize: 20,
+    marginTop: 40,
+    marginBottom: 40,
+    color: "#F88017",
+  },
+
+  insideText: {
     fontSize: 23,
     marginBottom: 40,
-    color: "red",
+    color: "#0020C2",
+    fontFamily: "Copperplate",
   },
 
   bodyBtnRed: {
@@ -101,6 +144,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 50,
   },
+  
 });
 
 
