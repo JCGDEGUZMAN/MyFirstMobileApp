@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
+import* as Font from 'expo-font';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default class HelloReactNative extends Component {
   state = {
     isVisible: false
+  }
+
+  componentDidMount = async() => {
+    await Font.loadAsync({
+      'Copperplate': require('./assets/fonts/Copperplate_Gothic_Bold_Regular.ttf'),
+    }) 
   }
 
   handleBtnClick = () => {
@@ -60,7 +67,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 70,
     paddingTop: 15,
-    fontSize: 20
+    fontSize: 20,
+    fontFamily: "Copperplate",
   },
 
   footer: {
@@ -72,12 +80,14 @@ const styles = StyleSheet.create({
     color: "white",  
     textAlign: "center",
     lineHeight: 50,
-    fontSize: 15
+    fontSize: 15,
+    fontFamily: "Copperplate",
   },
 
   bodyText: {
     fontSize: 23,
     marginBottom: 40,
+    color: "red",
   },
 
   bodyBtnRed: {
